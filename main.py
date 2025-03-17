@@ -57,4 +57,9 @@ async def main():
     await bot.polling(none_stop=True)
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("Bot stopped gracefully")
+    except Exception as e:
+        print(f"Error occurred: {e}")
