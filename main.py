@@ -54,7 +54,13 @@ async def main():
 
     # Start bot
     print("Starting Gemini_Telegram_Bot.")
-    await bot.polling(none_stop=True)
+    try:
+        # Keep the bot running
+        print("Bot is running...")
+        await bot.infinity_polling(timeout=60, long_polling_timeout=60)
+    except Exception as e:
+        print(f"Bot polling error: {e}")
+        traceback.print_exc()
 
 if __name__ == '__main__':
     try:
@@ -63,3 +69,4 @@ if __name__ == '__main__':
         print("Bot stopped gracefully")
     except Exception as e:
         print(f"Error occurred: {e}")
+        traceback.print_exc()
