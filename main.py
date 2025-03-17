@@ -57,7 +57,7 @@ async def main():
     try:
         # Keep the bot running
         print("Bot is running...")
-        await bot.infinity_polling(timeout=60, long_polling_timeout=60)
+        await bot.polling(non_stop=True, timeout=60)
     except Exception as e:
         print(f"Bot polling error: {e}")
         traceback.print_exc()
