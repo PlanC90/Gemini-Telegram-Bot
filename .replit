@@ -17,3 +17,4 @@ args = "python main.py"
 
 [deployment]
 deploymentTarget = "gce"
+run = ["sh", "-c", "python main.py"]
