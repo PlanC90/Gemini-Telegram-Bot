@@ -7,17 +7,22 @@ from telebot.async_telebot import AsyncTeleBot
 import handlers
 from config import conf, generation_config, safety_settings
 
-# Init args
-parser = argparse.ArgumentParser()
-parser.add_argument("tg_token", help="telegram token")
-parser.add_argument("GOOGLE_GEMINI_KEY", help="Google Gemini API key")
-options = parser.parse_args()
-print("Arg parse done.")
+import os
+
+# Get tokens from environment variables
+tg_token = os.getenv("TELEGRAM_BOT_API_KEY")
+gemini_key = os.getenv("GEMINI_API_KEY")
+
+if not tg_token or not gemini_key:
+    print("Error: Please set TELEGRAM_BOT_API_KEY and GEMINI_API_KEY environment variables")
+    sys.exit(1)
+    
+print("Environment variables loaded.")
 
 
 async def main():
     # Init bot
-    bot = AsyncTeleBot(options.tg_token)
+    bot = AsyncTeleBot(tg_token)
     await bot.delete_my_commands(scope=None, language_code=None)
     await bot.set_my_commands(
     commands=[
