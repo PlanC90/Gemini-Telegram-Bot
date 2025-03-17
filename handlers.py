@@ -26,7 +26,7 @@ async def gemini_stream_handler(message: Message, bot: TeleBot) -> None:
     try:
         m = message.text.strip().split(maxsplit=1)[1].strip()
     except IndexError:
-        await bot.reply_to(message, escape("Please add what you want to say after /gemini. \nFor example: `/gemini Who is john lennon?`"), parse_mode="MarkdownV2")
+        await bot.reply_to(message, escape("Please add what you want to say after /memex. \nFor example: `/memex Who is john lennon?`"), parse_mode="MarkdownV2")
         return
     await gemini.gemini_stream(bot, message, m, model_1)
 
