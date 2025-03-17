@@ -8,6 +8,17 @@ import handlers
 from config import conf, generation_config, safety_settings
 
 import os
+from flask import Flask
+from threading import Thread
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is alive!"
+
+def run_web():
+    app.run(host='0.0.0.0', port=8080)
 
 # Get tokens from environment variables
 tg_token = os.getenv("TELEGRAM_BOT_API_KEY")
@@ -64,6 +75,8 @@ async def main():
 
 if __name__ == '__main__':
     try:
+        web_thread = Thread(target=run_web)
+        web_thread.start()
         asyncio.run(main())
     except KeyboardInterrupt:
         print("Bot stopped gracefully")
