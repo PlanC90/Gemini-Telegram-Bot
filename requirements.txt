@@ -5,3 +5,5 @@ md2tgmd
 Pillow
 sift-stack-py
 flask
+beautifulsoup4
+requests

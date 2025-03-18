@@ -28,7 +28,23 @@ async def gemini_stream_handler(message: Message, bot: TeleBot) -> None:
     except IndexError:
         await bot.reply_to(message, escape("Please add what you want to say after /memex. \nFor example: `/memex Who is john lennon?`"), parse_mode="MarkdownV2")
         return
-    await gemini.gemini_stream(bot, message, m, model_1)
+    
+    # Memex token bilgisini al
+    try:
+        import requests
+        from bs4 import BeautifulSoup
+        
+        response = requests.get(f"https://memextoken.org/search?q={m}")
+        soup = BeautifulSoup(response.text, 'html.parser')
+        memex_info = soup.find('div', class_='search-results').get_text()
+        
+        # Memex bilgisini soruya ekle
+        enhanced_query = f"Based on this context from Memex: {memex_info}\n\nOriginal question: {m}"
+        await gemini.gemini_stream(bot, message, enhanced_query, model_1)
+    except Exception as e:
+        print(f"Memex error: {e}")
+        # Hata durumunda normal akışa devam et
+        await gemini.gemini_stream(bot, message, m, model_1)
 
 async def gemini_pro_stream_handler(message: Message, bot: TeleBot) -> None:
     try:
